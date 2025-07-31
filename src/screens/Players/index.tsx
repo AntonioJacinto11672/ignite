@@ -10,17 +10,24 @@ import { HeaderList, NumberOfPlayers } from "@components/Filter/styles";
 import { PlayerCard } from "@components/PlayerCard";
 import { ListEmpty } from "@components/ListEmpity";
 import { Button } from "@components/Button";
+import { useRoute } from "@react-navigation/native";
 
+type RouteParams = {
+  group: string
+}
 
 export default function Player() {
   const [team, setTeam] = useState("Time A")
   const [players, setPlayers] = useState([])
 
+  const route = useRoute()
+
+  const { group } = route.params as RouteParams
   return (
     <Container>
       <Header showBackButton />
       <Highliht
-        title="Nome da Turma"
+        title={group}
         subTitle="Adicione a galera e separe os times"
       />
       <Form>
@@ -53,12 +60,12 @@ export default function Player() {
         ListEmptyComponent={() => <ListEmpty message="Não há pessoas nesse time" />}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={[
-          { paddingBottom: 100},
-          players.length === 0 && {flex: 1}
+          { paddingBottom: 100 },
+          players.length === 0 && { flex: 1 }
         ]}
       />
 
-      <Button title="Remover Turma"  type="SECONDARY"/>
+      <Button title="Remover Turma" type="SECONDARY" />
     </Container>
   );
 }

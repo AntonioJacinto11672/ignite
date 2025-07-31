@@ -6,6 +6,7 @@ import Loading  from '@components/Loanding';
 import { StatusBar } from 'react-native';
 import { NewGroup } from '@screens/NewGroup';
 import Player from '@screens/Players';
+import Routes from './src/routes/index';
 export default function App() {
 
   const [fontsLoaded] = useFonts({
@@ -15,13 +16,13 @@ export default function App() {
 
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}> 
       <StatusBar
         barStyle="light-content"
         backgroundColor="transparent"
         translucent
       />
-      {fontsLoaded ? <Player /> : <Loading />}
+      {fontsLoaded ? <Routes /> : <Loading />}
     </ThemeProvider>
   );
 } 

@@ -1,4 +1,5 @@
 import { UsersThreeIcon } from "phosphor-react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import styled from "styled-components/native";
 
 
@@ -9,7 +10,7 @@ padding: 24px;
 `
 
 
-export const Content = styled.View`
+export const Content = styled(SafeAreaView)`
 flex: 1;
 justify-content: center;
 `
