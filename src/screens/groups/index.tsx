@@ -2,11 +2,12 @@ import { Container } from './styles';
 import Header from '@components/Header';
 import Highliht from '@components/Highlight';
 import { GroupCard } from '@components/GroupCard';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
 import { ListEmpty } from '@components/ListEmpity';
 import { Button } from '@components/Button';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { groupGetAll } from '@storage/group/groupGetAll';
 
 
 
@@ -18,6 +19,22 @@ export function Groups() {
     const handleNewGroup = () => {
         navigation.navigate("new")
     }
+
+    async function fetchGroups() {
+        try {
+            const data = await groupGetAll()
+            setGroups(data)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async function handleOpenGroup(group: string) {
+        navigation.navigate("players", { group })
+    }
+    useFocusEffect(useCallback(() => {
+        fetchGroups()
+    }, []))
     return (
         <Container>
             <Header />
@@ -27,12 +44,13 @@ export function Groups() {
                 data={groups}
                 keyExtractor={(item) => item}
                 contentContainerStyle={groups.length === 0 && { flex: 1 }}
-                renderItem={({ item }) => <GroupCard title={item} />}
-                ListEmptyComponent={() => <ListEmpty  message="Que tal Cadastrar a primeira turma?"/>}
-                />
+                renderItem={({ item }) => <GroupCard title={item} onPress={() => handleOpenGroup(item)} />}
+                ListEmptyComponent={() => <ListEmpty message="Que tal Cadastrar a primeira turma?" />}
+                showsVerticalScrollIndicator={false}
+            />
 
-                <Button title='Criar nova  turma' onPress={handleNewGroup}/>
-            
+            <Button title='Criar nova  turma' onPress={handleNewGroup} />
+
         </Container>
     );
 }
